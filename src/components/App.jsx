@@ -4,6 +4,8 @@ import ContactList from "./contactList/contactList";
 import Filter from "./filter/filter";
 import GlobalStyle from "./globalStyled";
 
+
+
 export default function App() {
 
   const [contacts, setContacts] = useState(JSON.parse(window.localStorage.getItem('contacts')) ?? []);
