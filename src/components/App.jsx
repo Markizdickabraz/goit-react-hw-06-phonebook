@@ -1,39 +1,47 @@
-import { useState, useEffect } from "react";
 import ContactForm from "./form/form";
 import ContactList from "./contactList/contactList";
 import Filter from "./filter/filter";
 import GlobalStyle from "./globalStyled";
+import { filter } from "redux/filterSlice";
+import {add, deleteBtn } from "redux/contactSlice"
+import { useDispatch,useSelector } from "react-redux";
+import { getContacts, getFilter} from "redux/selectors";
+
 
 
 
 export default function App() {
-
-  const [contacts, setContacts] = useState(JSON.parse(window.localStorage.getItem('contacts')) ?? []);
-  const [filter, setFilter] = useState('');
   
+  const items = useSelector(getContacts)
+  const filterItems = useSelector(getFilter)
+
+  const dispatch = useDispatch();
+
+  // const [contacts, setContacts] = useState(JSON.parse(window.localStorage.getItem('contacts')) ?? []);
+
   const deleteClick = (name) => {
-    setContacts(contacts.filter(contact => contact.name !== name))
+    dispatch(deleteBtn(name))
   }
 
-  useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts))  
-},[contacts])
+//   useEffect(() => {
+//     window.localStorage.setItem('contacts', JSON.stringify(items))  
+// },[items])
 
   const formSubmitHandler = (data) => {
-    const filterdContacts = contacts.map(contact => contact.name);
+    const filterdContacts = items.map(contact => contact.name);
     const someName = filterdContacts.some(name => name === data.name);
       if (someName) {
       return alert(`${data.name}, is already in contacts`);
       } 
-        setContacts([...contacts, {...data}])
+          dispatch(add(data));
   }
 
   const chengeFilter = e => {
-    setFilter(e.currentTarget.value)
+    dispatch(filter(e.currentTarget.value))
   }
-  
-  const normalizedFilter = filter.toLowerCase();
-  let filtredComponents = contacts.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
+
+  const normalizedFilter = filterItems.toLowerCase();
+  let filtredComponents = items.filter(contact => contact.name.toLowerCase().includes(normalizedFilter));
 
     return (
       <div>
@@ -41,8 +49,8 @@ export default function App() {
         <h1>Phonebook</h1>
         <ContactForm onSubmitFunc={formSubmitHandler} />
         <h2>Contacts</h2>
-        <Filter value={filter} onChange={chengeFilter} />
-        {filtredComponents.length > 0 &&  <ContactList items={filtredComponents} onDeleteClick={deleteClick} />}
+        <Filter value={filterItems} onChange={chengeFilter} />
+        {filtredComponents.length > 0 && <ContactList items ={filtredComponents} onDeleteClick={deleteClick} />}
       </div>
     );
   }

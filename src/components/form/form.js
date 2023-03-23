@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 export default function ContactForm(props) {
 
-let data = []
+    
+    let data = []
     
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');

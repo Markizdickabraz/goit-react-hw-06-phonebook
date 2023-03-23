@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { InputStyled, LabelStyled } from '../form/FormStyled'
 
 const Filter = ({ value, onChange }) => (
-
                 <LabelStyled>
           Find contacts by name
     <InputStyled

@@ -1,7 +1,9 @@
 import ListItem from "../listItem/listItem";
 import PropTypes from 'prop-types';
 
-export default function ContactList({ items, onDeleteClick }) {
+    
+export default function ContactList({items, onDeleteClick }) {
+
         return (
             <ul>
                 {items.map(item =>
