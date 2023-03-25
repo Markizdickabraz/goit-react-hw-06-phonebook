@@ -9,7 +9,7 @@ import { getContacts, getFilter } from "redux/selectors";
 
 export default function App() {
   
-  const items = useSelector(getContacts).value;
+  const items = useSelector(getContacts);
   // const contacts = items.value;
   const filterItems = useSelector(getFilter)
 
