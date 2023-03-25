@@ -5,27 +5,19 @@ import GlobalStyle from "./globalStyled";
 import { filter } from "redux/filterSlice";
 import {add, deleteBtn } from "redux/contactSlice"
 import { useDispatch,useSelector } from "react-redux";
-import { getContacts, getFilter} from "redux/selectors";
-
-
-
+import { getContacts, getFilter } from "redux/selectors";
 
 export default function App() {
   
-  const items = useSelector(getContacts)
+  const items = useSelector(getContacts).value;
+  // const contacts = items.value;
   const filterItems = useSelector(getFilter)
 
   const dispatch = useDispatch();
 
-  // const [contacts, setContacts] = useState(JSON.parse(window.localStorage.getItem('contacts')) ?? []);
-
   const deleteClick = (name) => {
     dispatch(deleteBtn(name))
   }
-
-//   useEffect(() => {
-//     window.localStorage.setItem('contacts', JSON.stringify(items))  
-// },[items])
 
   const formSubmitHandler = (data) => {
     const filterdContacts = items.map(contact => contact.name);
@@ -50,7 +42,7 @@ export default function App() {
         <ContactForm onSubmitFunc={formSubmitHandler} />
         <h2>Contacts</h2>
         <Filter value={filterItems} onChange={chengeFilter} />
-        {filtredComponents.length > 0 && <ContactList items ={filtredComponents} onDeleteClick={deleteClick} />}
+          {filtredComponents.length > 0 && <ContactList items={filtredComponents} onDeleteClick={deleteClick} />}
       </div>
     );
   }

@@ -13,8 +13,6 @@ export default function ContactForm(props) {
     const numberSelector = useSelector(getNumber);
     
     let data = []
-    // const [name, setName] = useState('');
-    // const [number, setNumber] = useState('');
 
     const handleChacge = e => {
                 switch (e.currentTarget.name) {
@@ -67,7 +65,7 @@ return (
                 required
 />
           </LabelStyled>
-    <FormBtn disabled={!name || !number} type='submit'>Add contact</FormBtn>
+    <FormBtn type='submit'>Add contact</FormBtn>
         </FormStyled>
 )
 }
