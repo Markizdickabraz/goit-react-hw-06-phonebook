@@ -1,7 +1,8 @@
-import ListItem from "../listItem/listItem";
 import { useSelector, useDispatch } from "react-redux";
 import { getContacts, getFilter } from "redux/selectors";
 import { deleteBtn } from "redux/contactSlice";
+import { ConstactListStyled, ListItemStyled } from './contactListStyled';
+
     
 export default function ContactList() {
 
@@ -17,13 +18,15 @@ export default function ContactList() {
     dispatch(deleteBtn(name))
   }
         return (
-            <ul>
+            <>
                 {filtredComponents.map(item =>
                 (
-                    <ListItem key={item.name}
-                        name={item.name} number={item.number} deleteClick = {deleteClick} ></ListItem>
+                    <ConstactListStyled key={item.name}
+                        >
+                         <ListItemStyled key={item.name}> <span> {item.name} : {item.number}</span> <button type="button" onClick = {()=>{deleteClick(item.name)}}>Delete</button></ListItemStyled>
+                        </ConstactListStyled>
                 )
                     )}
-            </ul>
+            </>
         )
     }
