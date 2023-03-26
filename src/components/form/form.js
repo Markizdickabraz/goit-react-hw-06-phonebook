@@ -1,38 +1,48 @@
 // import { useState } from "react";
 import { FormBtn, FormStyled, InputStyled, LabelStyled } from "./FormStyled";
-import PropTypes from 'prop-types';
 import { name } from 'redux/nameSlice';
 import { number } from "redux/numberSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { getName, getNumber } from "redux/selectors";
+import { getContacts, getName, getNumber } from "redux/selectors";
+import {add} from "redux/contactSlice"
 
-export default function ContactForm(props) {
+export default function ContactForm() {
 
     const dispatch = useDispatch();
     const nameSelector = useSelector(getName);
     const numberSelector = useSelector(getNumber);
-    
-    let data = []
+    const items = useSelector(getContacts);
 
+    let data = []
+    
     const handleChacge = e => {
-                switch (e.currentTarget.name) {
+        switch (e.currentTarget.name) {
             case 'name':
                 dispatch(name(e.currentTarget.value));
                 break;
-            case 'number':
-                dispatch(number(e.currentTarget.value));
-                break;
-            default: return;
-           } 
-    }
+                case 'number':
+                    dispatch(number(e.currentTarget.value));
+                    break;
+                    default: return;
+                } 
+            }
+            
+    data = { name: nameSelector, number: numberSelector }
     
-     data = { name: nameSelector, number: numberSelector}
-    
-    const formSubmit = (e) => {
-        e.preventDefault();
-        props.onSubmitFunc(data)
-        reset();
-        
+            const formSubmitHandler = (data) => {
+              const filterdContacts = items.map(contact => contact.name);
+              const someName = filterdContacts.some(name => name === data.name);
+                if (someName) {
+                return alert(`${data.name}, is already in contacts`);
+                } 
+                    dispatch(add(data));
+            }
+            
+            const formSubmit = (e) => {
+                e.preventDefault();
+                formSubmitHandler(data)
+                reset();
+                
     }
   
     const reset = () => {
@@ -68,8 +78,4 @@ return (
     <FormBtn type='submit'>Add contact</FormBtn>
         </FormStyled>
 )
-}
-
-FormStyled.propTypes = {
-    onSubmitFunc : PropTypes.func
 }
